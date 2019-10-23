@@ -16,9 +16,6 @@
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="VotingWebPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
-    <Policies>
-      <RunAsPolicy CodePackageRef="Code" UserRef="SetupAdminUser" EntryPointType="Setup" />
-    </Policies>
   </ServiceManifestImport>
   <DefaultServices>
     <!-- The section below creates instances of service types, when an instance of this 
@@ -37,13 +34,4 @@
       </StatelessService>
     </Service>
   </DefaultServices>
-  <Principals>
-    <Users>
-      <User Name="SetupAdminUser">
-        <MemberOf>
-          <SystemGroup Name="Administrators" />
-        </MemberOf>
-      </User>
-    </Users>
-  </Principals>
 </ApplicationManifest>

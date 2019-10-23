@@ -5,12 +5,6 @@
 
 namespace VotingWeb
 {
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
-    using Microsoft.ServiceFabric.Services.Communication.Runtime;
-    using Microsoft.ServiceFabric.Services.Runtime;
     using System;
     using System.Collections.Generic;
     using System.Fabric;
@@ -18,6 +12,12 @@ namespace VotingWeb
     using System.Net;
     using System.Net.Http;
     using System.Security.Cryptography.X509Certificates;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
+    using Microsoft.ServiceFabric.Services.Communication.Runtime;
+    using Microsoft.ServiceFabric.Services.Runtime;
 
     /// <summary>
     /// The FabricRuntime creates an instance of this class for each service type instance. 
@@ -37,40 +37,66 @@ namespace VotingWeb
         {
             return new ServiceInstanceListener[]
             {
-                   new ServiceInstanceListener(
-                     serviceContext =>
-                         new KestrelCommunicationListener(
-                             serviceContext,
-                             "EndpointHttps",
-                             (url, listener) =>
-                             {
-                                 ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel on {url}");
+            /*
+                new ServiceInstanceListener(
+                    serviceContext =>
+                        new KestrelCommunicationListener(
+                            serviceContext,
+                            "ServiceEndpoint",
+                            (url, listener) =>
+                            {
+                                ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel on {url}");
 
                                 return new WebHostBuilder()
-                                    .UseKestrel(opt =>
-                                    {
-                                         int port = serviceContext.CodePackageActivationContext.GetEndpoint("EndpointHttps").Port;
-                                         opt.Listen(IPAddress.IPv6Any, port, listenOptions =>
-                                         {
-                                             listenOptions.UseHttps(GetHttpsCertificateFromStore());
-                                             listenOptions.NoDelay = true;
-                                         });
-                                    })
-                                     .ConfigureAppConfiguration((builderContext, config) =>
-                                     {
-                                         config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                                     })
-                                     .ConfigureServices(
-                                         services => services
-                                             .AddSingleton<HttpClient>(new HttpClient())
-                                             .AddSingleton<FabricClient>(new FabricClient())
-                                             .AddSingleton<StatelessServiceContext>(serviceContext))
-                                     .UseContentRoot(Directory.GetCurrentDirectory())
-                                     .UseStartup<Startup>()
-                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
-                                     .UseUrls(url)
-                                     .Build();
+                                    .UseKestrel()
+                                    .ConfigureServices(
+                                        services => services
+                                            .AddSingleton<HttpClient>(new HttpClient())
+                                            .AddSingleton<FabricClient>(new FabricClient())
+                                            .AddSingleton<StatelessServiceContext>(serviceContext))
+                                    .UseContentRoot(Directory.GetCurrentDirectory())
+                                    .UseStartup<Startup>()
+                                    .UseApplicationInsights()
+                                    .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
+                                    .UseUrls(url)
+                                    .Build();
                             }))
+                            */
+                new ServiceInstanceListener(
+                    serviceContext =>
+                    new KestrelCommunicationListener(
+                    serviceContext,
+                    "EndpointHttps",
+                    (url, listener) =>
+                    {
+                        ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel on {url}");
+
+                        return new WebHostBuilder()
+                            .UseKestrel(opt =>
+                            {
+                                int port = serviceContext.CodePackageActivationContext.GetEndpoint("EndpointHttps").Port;
+                                opt.Listen(IPAddress.IPv6Any, port, listenOptions =>
+                                {
+                                    listenOptions.UseHttps(GetHttpsCertificateFromStore());
+                                    listenOptions.NoDelay = true;
+                                });
+                            })
+                            .ConfigureAppConfiguration((builderContext, config) =>
+                            {
+                                config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                            })
+
+                            .ConfigureServices(
+                                services => services
+                                    .AddSingleton<HttpClient>(new HttpClient())
+                                    .AddSingleton<FabricClient>(new FabricClient())
+                                    .AddSingleton<StatelessServiceContext>(serviceContext))
+                            .UseContentRoot(Directory.GetCurrentDirectory())
+                            .UseStartup<Startup>()
+                            .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
+                            .UseUrls(url)
+                            .Build();
+                    }))
             };
         }
 
@@ -84,7 +110,6 @@ namespace VotingWeb
         {
             return new Uri($"{context.CodePackageActivationContext.ApplicationName}/VotingData");
         }
-
         private X509Certificate2 GetHttpsCertificateFromStore()
         {
             using (var store = new X509Store(StoreName.My, StoreLocation.LocalMachine))

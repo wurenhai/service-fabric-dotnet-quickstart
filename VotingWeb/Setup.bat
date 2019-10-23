@@ -1,1 +1,1 @@
-﻿powershell.exe -ExecutionPolicy Bypass -Command ".\SetCertAccess.ps1"
+powershell.exe -ExecutionPolicy Bypass -Command ".\SetCertAccess.ps1"

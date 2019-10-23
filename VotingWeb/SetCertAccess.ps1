@@ -1,4 +1,4 @@
-﻿$subject="mytestcert"
+$subject="mytestcert"
 $userGroup="NETWORK SERVICE"
 
 Write-Host "Checking permissions to certificate $subject.." -ForegroundColor DarkCyan
@@ -31,12 +31,12 @@ if ($cert -eq $null)
     } else {
         Write-Host "Need add permissions to '$subject' certificate..." -ForegroundColor DarkYellow
 
-	    $permission=$userGroup,"Full","Allow"
-	    $accessRule=new-object System.Security.AccessControl.FileSystemAccessRule $permission
-	    $acl.AddAccessRule($accessRule)
-	    Set-Acl $fullPath $acl
+        $permission=$userGroup,"Full","Allow"
+        $accessRule=new-object System.Security.AccessControl.FileSystemAccessRule $permission
+        $acl.AddAccessRule($accessRule)
+        Set-Acl $fullPath $acl
 
-	    Write-Output "Permissions were added"
+        Write-Output "Permissions were added"
 
         return $true;
     }
