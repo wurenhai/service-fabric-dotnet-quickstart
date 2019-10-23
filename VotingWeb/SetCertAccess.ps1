@@ -1,4 +1,4 @@
-$subject="mytestcert"
+$subject="nd.com"
 $userGroup="NETWORK SERVICE"
 
 Write-Host "Checking permissions to certificate $subject.." -ForegroundColor DarkCyan
