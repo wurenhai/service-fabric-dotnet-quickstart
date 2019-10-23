@@ -37,29 +37,6 @@ namespace VotingWeb
         {
             return new ServiceInstanceListener[]
             {
-/*                new ServiceInstanceListener(
-                    serviceContext =>
-                        new KestrelCommunicationListener(
-                            serviceContext,
-                            "EndpointHttp",
-                            (url, listener) =>
-                            {
-                                ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel on {url}");
-
-                                return new WebHostBuilder()
-                                    .UseKestrel()
-                                    .ConfigureServices(
-                                        services => services
-                                            .AddSingleton<HttpClient>(new HttpClient())
-                                            .AddSingleton<FabricClient>(new FabricClient())
-                                            .AddSingleton<StatelessServiceContext>(serviceContext))
-                                    .UseContentRoot(Directory.GetCurrentDirectory())
-                                    .UseStartup<Startup>()
-                                    .UseApplicationInsights()
-                                    .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
-                                    .UseUrls(url)
-                                    .Build();
-                            })),*/
                    new ServiceInstanceListener(
                      serviceContext =>
                          new KestrelCommunicationListener(

@@ -18,6 +18,7 @@
         <WorkingFolder>CodePackage</WorkingFolder>
       </ExeHost>
     </SetupEntryPoint>
+    
     <EntryPoint>
       <ExeHost>
         <Program>VotingWeb.exe</Program>
@@ -38,7 +39,6 @@
       <!-- This endpoint is used by the communication listener to obtain the port on which to 
            listen. Please note that if your service is partitioned, this port is shared with 
            replicas of different partitions that are placed in your code. -->
-      <!-- Endpoint Protocol="http" Name="EndpointHttp" Type="Input" Port="8080" / -->
       <Endpoint Protocol="https" Name="EndpointHttps" Type="Input" Port="443" />
     </Endpoints>
   </Resources>
