@@ -116,7 +116,7 @@ namespace VotingWeb
             {
                 store.Open(OpenFlags.ReadOnly);
                 var certCollection = store.Certificates;
-                var currentCerts = certCollection.Find(X509FindType.FindBySubjectDistinguishedName, "CN=nd.com", false);
+                var currentCerts = certCollection.Find(X509FindType.FindBySubjectDistinguishedName, "CN=AzureServiceFabric-AnonymousClient", false);
 
                 if (currentCerts.Count == 0)
                 {

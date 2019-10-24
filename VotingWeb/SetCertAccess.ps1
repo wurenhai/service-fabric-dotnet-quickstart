@@ -1,4 +1,4 @@
-$subject="nd.com"
+$subject="AzureServiceFabric-AnonymousClient"
 $userGroup="NETWORK SERVICE"
 
 Write-Host "Checking permissions to certificate $subject.." -ForegroundColor DarkCyan
